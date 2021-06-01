@@ -51,8 +51,7 @@ namespace Migrations
             // If the user didn't specify a database name to migrate, try to get it from the connection string.
             if (string.IsNullOrWhiteSpace(Options.Database))
             {
-                if (!string.IsNullOrWhiteSpace(Connection.Database) &&
-                    !"master".Equals(Connection.Database, StringComparison.OrdinalIgnoreCase))
+                if (!string.IsNullOrWhiteSpace(Connection.Database) && !"master".Equals(Connection.Database, StringComparison.OrdinalIgnoreCase))
                     Options.Database = Connection.Database;
                 else
                     throw new MigrationException("No database name was specified to migrate");
@@ -72,8 +71,7 @@ namespace Migrations
                     Connection.ChangeDatabase("master");
                     await Connection.ExecuteNonQueryAsync(CancellationToken,
                         $"ALTER DATABASE {SqlArg.Bracketize(Options.Database)} SET SINGLE_USER WITH ROLLBACK IMMEDIATE");
-                    await Connection.ExecuteNonQueryAsync(CancellationToken,
-                        $"DROP DATABASE {SqlArg.Bracketize(Options.Database)}");
+                    await Connection.ExecuteNonQueryAsync(CancellationToken, $"DROP DATABASE {SqlArg.Bracketize(Options.Database)}");
                     Result.DatabaseExists = false;
                 }
             }
@@ -94,8 +92,7 @@ namespace Migrations
             Result.StartingVersion = Result.CurrentVersion = await DatabaseVersion.GetVersionAsync();
 
             if (Options.From != null && Result.CurrentVersion < Options.From)
-                throw new MigrationException(
-                    $"You can't upgrade from version {Options.From} as you're only at version {Result.CurrentVersion}");
+                throw new MigrationException($"You can't upgrade from version {Options.From} as you're only at version {Result.CurrentVersion}");
             if (Options.To != null && Result.CurrentVersion > Options.To)
                 throw new MigrationException("Downgrading is not supported");
 
@@ -119,8 +116,7 @@ namespace Migrations
 
                 if (metadata.Version == Result.CurrentVersion)
                 {
-                    Progress.Report("Database is already up to date at migration {0}: {1}", metadata.Version,
-                        metadata.Description);
+                    Progress.Report("Database is already up to date at migration {0}: {1}", metadata.Version, metadata.Description);
                     continue;
                 }
 

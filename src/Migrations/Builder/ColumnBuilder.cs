@@ -4,12 +4,12 @@ namespace Migrations.Builder
 {
     public class ColumnBuilder
     {
+        readonly string name;
+        readonly string table;
         SchemaCondition condition;
         string defaultValue;
-        readonly string name;
         bool nullable;
         SchemaOperation operation;
-        readonly string table;
         SqlDbType type;
 
         public ColumnBuilder(string name, string table)

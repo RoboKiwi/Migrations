@@ -18,10 +18,7 @@ namespace Migrations.Extensions
         {
             if (version == null) return null;
 
-            return new Version(
-                version.Major < 0 ? 0 : version.Major,
-                version.Minor < 0 ? 0 : version.Minor,
-                version.Build < 0 ? 0 : version.Build,
+            return new Version(version.Major < 0 ? 0 : version.Major, version.Minor < 0 ? 0 : version.Minor, version.Build < 0 ? 0 : version.Build,
                 version.Revision < 0 ? 0 : version.Revision);
         }
     }

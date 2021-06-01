@@ -13,8 +13,7 @@ namespace Migrations.Annotations
 
         public AssociatedMetadataTypeTypeDescriptionProvider(Type type, Type associatedMetadataType) : this(type)
         {
-            this.associatedMetadataType =
-                associatedMetadataType ?? throw new ArgumentNullException("associatedMetadataType");
+            this.associatedMetadataType = associatedMetadataType ?? throw new ArgumentNullException(nameof(associatedMetadataType));
         }
 
         public override ICustomTypeDescriptor GetTypeDescriptor(Type objectType, object instance)

@@ -12,14 +12,12 @@ namespace Migrations.Extensions
 {
     public static class DbConnectionExtensions
     {
-        public static Task<object> ExecuteScalarAsync(this DbConnection connection, string query,
-            params KeyValuePair<string, object>[] parameters)
+        public static Task<object> ExecuteScalarAsync(this DbConnection connection, string query, params KeyValuePair<string, object>[] parameters)
         {
             return ExecuteScalarAsync(connection, CancellationToken.None, query, parameters);
         }
 
-        public static async Task<int> ExecuteBatchNonQueryAsync(this DbConnection connection, CancellationToken token,
-            TextReader reader)
+        public static async Task<int> ExecuteBatchNonQueryAsync(this DbConnection connection, CancellationToken token, TextReader reader)
         {
             var rowsAffected = 0;
 
@@ -55,8 +53,8 @@ namespace Migrations.Extensions
             return rowsAffected;
         }
 
-        public static async Task<int> ExecuteNonQueryAsync(this DbConnection connection, CancellationToken token,
-            string query, params KeyValuePair<string, object>[] parameters)
+        public static async Task<int> ExecuteNonQueryAsync(this DbConnection connection, CancellationToken token, string query,
+            params KeyValuePair<string, object>[] parameters)
         {
             using (var command = connection.CreateCommand(query, parameters))
             {
@@ -64,8 +62,8 @@ namespace Migrations.Extensions
             }
         }
 
-        public static async Task<object> ExecuteScalarAsync(this DbConnection connection, CancellationToken token,
-            string query, params KeyValuePair<string, object>[] parameters)
+        public static async Task<object> ExecuteScalarAsync(this DbConnection connection, CancellationToken token, string query,
+            params KeyValuePair<string, object>[] parameters)
         {
             using (var command = connection.CreateCommand(query, parameters))
             {
@@ -73,8 +71,8 @@ namespace Migrations.Extensions
             }
         }
 
-        public static async Task<T> ExecuteScalarAsync<T>(this DbConnection connection, CancellationToken token,
-            string query, params KeyValuePair<string, object>[] parameters)
+        public static async Task<T> ExecuteScalarAsync<T>(this DbConnection connection, CancellationToken token, string query,
+            params KeyValuePair<string, object>[] parameters)
         {
             var value = await ExecuteScalarAsync(connection, token, query, parameters);
             return (T) value;
@@ -89,8 +87,7 @@ namespace Migrations.Extensions
             }
         }
 
-        public static DbCommand CreateCommand(this DbConnection connection, string query,
-            params KeyValuePair<string, object>[] parameters)
+        public static DbCommand CreateCommand(this DbConnection connection, string query, params KeyValuePair<string, object>[] parameters)
         {
             return connection.CreateCommand().SetParameters(query, parameters);
         }
@@ -102,27 +99,23 @@ namespace Migrations.Extensions
         /// <param name="database"></param>
         /// <param name="token"></param>
         /// <returns></returns>
-        public static async Task<bool> DatabaseExists(this DbConnection connection, string database,
-            CancellationToken token = default)
+        public static async Task<bool> DatabaseExists(this DbConnection connection, string database, CancellationToken token = default)
         {
             return await connection.ExistsAsync(token, "select [name] from [sys].[sysdatabases] where [name] = @Name",
                 new KeyValuePair<string, object>("@Name", database));
         }
 
-        public static async Task<bool> TableExistsAsync(this DbConnection connection, string table,
-            CancellationToken token = default)
+        public static async Task<bool> TableExistsAsync(this DbConnection connection, string table, CancellationToken token = default)
         {
-            return await connection.ExistsAsync(token,
-                "select table_name from information_schema.tables where table_name = @Name",
+            return await connection.ExistsAsync(token, "select table_name from information_schema.tables where table_name = @Name",
                 new KeyValuePair<string, object>("@Name", table));
         }
 
-        public static async Task<bool> ColumnExistsAsync(this DbConnection connection, string table, string column,
-            CancellationToken token = default)
+        public static async Task<bool> ColumnExistsAsync(this DbConnection connection, string table, string column, CancellationToken token = default)
         {
             return await connection.ExistsAsync(token,
-                "select column_name from information_schema.columns where table_name = @Name and column_name = @Column",
-                SqlArg.Name(table), SqlArg.Create("@Column", column));
+                "select column_name from information_schema.columns where table_name = @Name and column_name = @Column", SqlArg.Name(table),
+                SqlArg.Create("@Column", column));
         }
 
         public static IDictionary<string, object> ExecuteRow(this DbConnection connection, string query,
@@ -131,8 +124,8 @@ namespace Migrations.Extensions
             return ExecuteQuery(connection, query, parameters).SingleOrDefault();
         }
 
-        public static async Task<IEnumerable<IDictionary<string, object>>> ExecuteQueryAsync(
-            this DbConnection connection, string query, params KeyValuePair<string, object>[] parameters)
+        public static async Task<IEnumerable<IDictionary<string, object>>> ExecuteQueryAsync(this DbConnection connection, string query,
+            params KeyValuePair<string, object>[] parameters)
         {
             using (var command = connection.CreateCommand(query, parameters))
             {
@@ -147,8 +140,7 @@ namespace Migrations.Extensions
             }
         }
 
-        public static async Task<IDictionary<string, object>> ExecuteRowAsync(this DbConnection connection,
-            string query,
+        public static async Task<IDictionary<string, object>> ExecuteRowAsync(this DbConnection connection, string query,
             params KeyValuePair<string, object>[] parameters)
         {
             var results = await ExecuteQueryAsync(connection, query, parameters);
@@ -168,8 +160,7 @@ namespace Migrations.Extensions
             }
         }
 
-        public static async Task<int> ExecuteNonQueryAsync(this DbConnection connection, string sql,
-            params KeyValuePair<string, object>[] parameters)
+        public static async Task<int> ExecuteNonQueryAsync(this DbConnection connection, string sql, params KeyValuePair<string, object>[] parameters)
         {
             var result = await ExecuteNonQueryAsync(connection, CancellationToken.None, sql, parameters);
             return result;

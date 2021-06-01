@@ -10,8 +10,7 @@ namespace Migrations.Annotations
 {
     class AssociatedMetadataTypeTypeDescriptor : CustomTypeDescriptor
     {
-        public AssociatedMetadataTypeTypeDescriptor(ICustomTypeDescriptor parent, Type type,
-            Type associatedMetadataType) : base(parent)
+        public AssociatedMetadataTypeTypeDescriptor(ICustomTypeDescriptor parent, Type type, Type associatedMetadataType) : base(parent)
         {
             AssociatedMetadataType = associatedMetadataType ?? TypeDescriptorCache.GetAssociatedMetadataType(type);
             IsSelfAssociated = type == AssociatedMetadataType;
@@ -40,8 +39,7 @@ namespace Migrations.Annotations
             var tempPropertyDescriptors = new List<PropertyDescriptor>();
             foreach (PropertyDescriptor propDescriptor in originalCollection)
             {
-                var newMetadata =
-                    TypeDescriptorCache.GetAssociatedMetadata(AssociatedMetadataType, propDescriptor.Name);
+                var newMetadata = TypeDescriptorCache.GetAssociatedMetadata(AssociatedMetadataType, propDescriptor.Name);
                 var descriptor = propDescriptor;
                 if (newMetadata.Length > 0)
                 {
@@ -107,8 +105,7 @@ namespace Migrations.Annotations
                 if (metadataTypeCache.TryGetValue(type, out associatedMetadataType)) return associatedMetadataType;
 
                 // Try association attribute
-                var attribute =
-                    (MetadataTypeAttribute) Attribute.GetCustomAttribute(type, typeof(MetadataTypeAttribute));
+                var attribute = (MetadataTypeAttribute) Attribute.GetCustomAttribute(type, typeof(MetadataTypeAttribute));
                 if (attribute != null) associatedMetadataType = attribute.MetadataClassType;
 
                 metadataTypeCache.TryAdd(type, associatedMetadataType);

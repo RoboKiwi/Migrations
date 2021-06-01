@@ -9,8 +9,7 @@ namespace Migrations.Annotations
         readonly PropertyDescriptor descriptor;
         readonly bool isReadOnly;
 
-        public MetadataPropertyDescriptorWrapper(PropertyDescriptor descriptor, Attribute[] newAttributes) : base(
-            descriptor, newAttributes)
+        public MetadataPropertyDescriptorWrapper(PropertyDescriptor descriptor, Attribute[] newAttributes) : base(descriptor, newAttributes)
         {
             this.descriptor = descriptor;
             var readOnlyAttribute = newAttributes.OfType<ReadOnlyAttribute>().FirstOrDefault();

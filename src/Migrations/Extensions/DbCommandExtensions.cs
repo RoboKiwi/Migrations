@@ -8,8 +8,7 @@ namespace Migrations.Extensions
 {
     public static class DbCommandExtensions
     {
-        public static DbCommand SetParameters(this DbCommand command, string query,
-            params KeyValuePair<string, object>[] parameters)
+        public static DbCommand SetParameters(this DbCommand command, string query, params KeyValuePair<string, object>[] parameters)
         {
             command.CommandText = query;
             foreach (var pair in parameters)
