@@ -155,8 +155,7 @@ namespace Migrations.Extensions
             using (var command = connection.CreateCommand(query, parameters))
             using (var reader = command.ExecuteReader())
             {
-                while (reader.Read())
-                    yield return reader.ReadRow();
+                while (reader.Read()) yield return reader.ReadRow();
             }
         }
 

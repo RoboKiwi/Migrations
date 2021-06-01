@@ -7,9 +7,7 @@ namespace Migrations.Annotations
     {
         readonly Type associatedMetadataType;
 
-        public AssociatedMetadataTypeTypeDescriptionProvider(Type type) : base(TypeDescriptor.GetProvider(type))
-        {
-        }
+        public AssociatedMetadataTypeTypeDescriptionProvider(Type type) : base(TypeDescriptor.GetProvider(type)) { }
 
         public AssociatedMetadataTypeTypeDescriptionProvider(Type type, Type associatedMetadataType) : this(type)
         {

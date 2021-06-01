@@ -52,7 +52,9 @@ namespace Migrations.Annotations
             }
 
             if (customDescriptorsCreated)
+            {
                 return new PropertyDescriptorCollection(tempPropertyDescriptors.ToArray(), true);
+            }
 
             return originalCollection;
         }
@@ -147,8 +149,13 @@ namespace Migrations.Annotations
                 // Try to find a matching member on type
                 var matchingMember = type.GetMember(memberName, allowedMemberTypes, searchFlags).FirstOrDefault();
                 if (matchingMember != null)
+                {
                     attributes = Attribute.GetCustomAttributes(matchingMember, true /* inherit */);
-                else attributes = emptyAttributes;
+                }
+                else
+                {
+                    attributes = emptyAttributes;
+                }
 
                 typeMemberCache.TryAdd(memberTuple, attributes);
                 return attributes;
