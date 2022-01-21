@@ -12,5 +12,10 @@ public interface INodeVisitor
     Task BeginIfExists(SchemaDefinition definition);
 
     Task EndIfExists(SchemaDefinition definition);
+
+    Task BeginIfNotExists(SchemaDefinition definition);
+
+    Task EndIfNotExists(SchemaDefinition definition);
+
     Task Column(ColumnDefinition definition, SchemaOperation operation);
 }

@@ -35,7 +35,7 @@ DROP TABLE [dbo].[TestTable];
 END
 ", generator.Builder.ToString());
     }
-
+    
     [Fact]
     public void DropTableIfAnotherTableExists()
     {
@@ -58,6 +58,34 @@ END
         generator.Visit(existsNode);
 
         Assert.Equal(@"IF EXISTS (SELECT OBJECT_ID(N'[dbo].[TableToCheck]'))
+BEGIN
+DROP TABLE [dbo].[TableToDrop];
+END
+", generator.Builder.ToString());
+    }
+
+    [Fact]
+    public void DropTableIfAnotherTableDoesNotExist()
+    {
+
+        // Drop table operation
+        var operation = new SchemaOperation
+        {
+            Action = SchemaAction.Drop,
+            Condition = SchemaCondition.IfNotExists
+        };
+
+        var generator = new SqlServerNodeVisitor();
+
+        var definition = new TableDefinition("TableToDrop", "dbo");
+
+        var node = new TableNode(definition, operation);
+
+        var existsNode = new IfNotExistsNode(new TableDefinition("TableToCheck", "dbo"), node);
+
+        generator.Visit(existsNode);
+
+        Assert.Equal(@"IF NOT EXISTS (SELECT OBJECT_ID(N'[dbo].[TableToCheck]'))
 BEGIN
 DROP TABLE [dbo].[TableToDrop];
 END
